@@ -17,21 +17,18 @@ public class RouletteGame {
 		String color = "";
 
 		System.out.println("Welcome to the Roulette Game!");
-		System.out.println("The payout of winning bets are 1:1 for color bets and 35:1 for number bets.");
+		System.out.println("The payout of winning bets are 1:1 for color bets and 35:1 for number bets.\n");
 
 		System.out.println("Enter your name");
 		String name = input.nextLine();
 
-		System.out.println("Enter your age");
-		int age = input.nextInt();
-
 		System.out.println("How much money do you want your starting amount to be?");
+
+		balance = input.nextInt();
 
 		boolean playAgain = true;
 
 		while (playAgain) {
-
-			balance = input.nextInt();
 
 			System.out.println("Okay, " + name + " lets get ready to play some Roulette! \n");
 			System.out.println("---------------------------");
@@ -63,63 +60,61 @@ public class RouletteGame {
 			int chosenNumber = input.nextInt();
 
 			if (chosenNumber == 1) {
-				System.out.println("Bets for this round:");
-				System.out.println("--------------------");
-				System.out.println("You chose the color Red, and bet $" + bet + " this round.\n");
-				System.out.println("THE SPIN IS " + color + " " + randomNumber + "\n");
-				System.out.println("Results");
-				System.out.println("----------------");
-				if (color == "RED") {
-					balance += bet;
-					System.out.println("YOU WON! (you currently have $" + (balance) + " left)\n");
-				} else {
-					balance -= bet;
-					System.out.println("You lost (you currently have $" + (balance) + " left)\n");
-				}
+				printStatement(bet, color, randomNumber, false, balance, 0, "RED");
 			}
 
 			else if (chosenNumber == 2) {
-				System.out.println("Bets for this round:");
-				System.out.println("--------------------");
-				System.out.println("You chose the color Black, and bet $" + bet + " this round.\n");
-				System.out.println("THE SPIN IS " + color + " " + randomNumber + "\n");
-				System.out.println("Results");
-				System.out.println("----------------");
-				if (color == "BLACK") {
-					balance += bet;
-					System.out.println("YOU WON! (you currently have $" + (balance) + " left)\n");
-				} else {
-					balance -= bet;
-					System.out.println("You lost (you currently have $" + (balance) + " left)\n");
-				}
+				printStatement(bet, color, randomNumber, false, balance, 0, "BLACK");
 			}
 
 			else if (chosenNumber == 3) {
-				System.out.println("Bets for this round:");
-				System.out.println("--------------------");
-				System.out.println("You chose the color Red, and bet $" + bet + " this round.\n");
-				System.out.println("THE SPIN IS " + color + " " + randomNumber + "\n");
-				System.out.println("Results");
-				System.out.println("----------------");
-				if (color == "Red") {
-					balance += bet;
-					System.out.println("YOU WON! (you currently have $" + (balance) + " left)\n");
-				} else {
-					balance -= bet;
-					System.out.println("You lost (you currently have $" + (balance) + " left)\n");
-				}
+				System.out.println("Choose a number");
+				int number = input.nextInt();
+				printStatement(bet, color, randomNumber, true, balance, number, "");
 			}
 
+			input.nextLine();
 			System.out.println("Do you want to play again (enter Y for yes and N for no)?");
 			String answer = input.nextLine();
 			if (answer.equalsIgnoreCase("N")) {
-			} else {
-				playAgain = true;
+				System.out.print("Thank you for playing!");
+				playAgain = false;
+			} else if (answer.equalsIgnoreCase("Y")) {
 				System.out.println("Get ready to play again");
+				playAgain = true;
 			}
+			System.out.println(playAgain);
 
 		}
 
-		// After the while loop
+	}
+
+	public static void printStatement(int bet, String color, int randomNumber, boolean numberThree, int balance,
+			int number, String guessColor) {
+		System.out.println("Bets for this round:");
+		System.out.println("--------------------");
+		System.out.println("You chose the color Red, and bet $" + bet + " this round.\n");
+		System.out.println("THE SPIN IS " + color + " " + randomNumber + "\n");
+		System.out.println("Results");
+		System.out.println("----------------");
+		if (numberThree) {
+			if (randomNumber == number) {
+				balance += bet;
+				System.out.println("YOU WON! (you currently have $" + (balance) + " left)\n");
+			} else {
+				balance -= bet;
+				System.out.println("You lost (you currently have $" + (balance) + " left)\n");
+			}
+		}
+		else {
+			if (color.equals(guessColor)) {
+				balance += bet;
+				System.out.println("YOU WON! (you currently have $" + (balance) + " left)\n");
+			} else {
+				balance -= bet;
+				System.out.println("You lost (you currently have $" + (balance) + " left)\n");
+			}
+		}
+
 	}
 }

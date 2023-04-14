@@ -112,7 +112,7 @@ public class RouletteGame {
 				System.out.println("YOU WON! (you currently have $" + (balance) + " left)\n");
 			} else {
 				balance -= bet;
-				System.out.println("You lost (you currently have $" + (balance) + " left)\n");
+				System.out.println("You lost (you currently have $" + (balance) + " left)\n"); //almost
 			}
 		}
 

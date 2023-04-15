@@ -22,9 +22,16 @@ public class RouletteGame {
 		System.out.println("Enter your name");
 		String name = input.nextLine();
 
-		System.out.println("How much money do you want your starting amount to be?");
+		while (balance <= 0) {
 
-		balance = input.nextInt();
+			System.out.println("How much money do you want your starting amount to be?");
+
+			balance = input.nextInt();
+			if (balance <= 0) {
+				System.out.println("You can not bet a negative number");
+				balance = -1;
+			}
+		}
 
 		boolean playAgain = true;
 
@@ -44,15 +51,17 @@ public class RouletteGame {
 				color = "BLACK";
 			}
 
-			while (true) {
+			while (bet > 50 || bet <= 0) {
 				System.out.println("Place your bets (The maximum you can bet is $50)\n");
 				bet = input.nextInt();
 
 				if (bet > 50) {
 					System.out.println("You cannot bet over $50");
 					continue;
+				} else if (bet <= 0) {
+					System.out.println("You cannot bet under $50");
+					bet = 0;
 				}
-				break;
 			}
 
 			System.out.println(
@@ -74,17 +83,8 @@ public class RouletteGame {
 			}
 
 			input.nextLine();
-			System.out.println("Do you want to play again (enter Y for yes and N for no)?");
-			String answer = input.nextLine();
-			if (answer.equalsIgnoreCase("N")) {
-				System.out.print("Thank you for playing!");
-				playAgain = false;
-			} else if (answer.equalsIgnoreCase("Y")) {
-				System.out.println("Get ready to play again");
-				playAgain = true;
-			}
-			System.out.println(playAgain);
 
+			playAgain = repeaterProcess(balance);
 		}
 
 	}
@@ -93,7 +93,7 @@ public class RouletteGame {
 			int number, String guessColor) {
 		System.out.println("Bets for this round:");
 		System.out.println("--------------------");
-		System.out.println("You chose the color Red, and bet $" + bet + " this round.\n");
+		System.out.println("You chose the color " + guessColor + ", and bet $" + bet + " this round.\n");
 		System.out.println("THE SPIN IS " + color + " " + randomNumber + "\n");
 		System.out.println("Results");
 		System.out.println("----------------");
@@ -105,16 +105,30 @@ public class RouletteGame {
 				balance -= bet;
 				System.out.println("You lost (you currently have $" + (balance) + " left)\n");
 			}
-		}
-		else {
+		} else {
 			if (color.equals(guessColor)) {
 				balance += bet;
 				System.out.println("YOU WON! (you currently have $" + (balance) + " left)\n");
 			} else {
 				balance -= bet;
-				System.out.println("You lost (you currently have $" + (balance) + " left)\n"); //almost
+				System.out.println("You lost (you currently have $" + (balance) + " left)\n");
+				
 			}
 		}
 
+	}
+
+	public static boolean repeaterProcess(int balance) {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Do you want to play again? (enter Y for yes and N for no)");
+		String answer = input.nextLine();
+		if (answer.equalsIgnoreCase("N")) {
+			System.out.print("Thank you for playing!");
+			return false;
+		} else if (answer.equalsIgnoreCase("Y")) {
+			System.out.println("Get ready to play again");
+			return true;
+		}
+		return false;
 	}
 }

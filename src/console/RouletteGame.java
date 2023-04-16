@@ -41,7 +41,7 @@ public class RouletteGame {
 			System.out.println("---------------------------");
 
 			Random random = new Random();
-			randomNumber = random.nextInt(38);
+			randomNumber = random.nextInt(36);
 
 			if (randomNumber == 0 || randomNumber == 1) {
 				color = "GREEN";
@@ -65,7 +65,7 @@ public class RouletteGame {
 			}
 
 			System.out.println(
-					"Enter 1 to choose RED, Enter 2 to choose BLACK, or 3 to choose a number!(If you choose a number, it has to be between -1 and 36 inclusive)");
+					"Enter 1 to choose RED, Enter 2 to choose BLACK, or 3 to choose a number!(If you choose a number, it has to be between 1 and 36 inclusive)");
 			int chosenNumber = input.nextInt();
 
 			if (chosenNumber == 1) {
@@ -77,8 +77,15 @@ public class RouletteGame {
 			}
 
 			else if (chosenNumber == 3) {
-				System.out.println("Choose a number");
-				int number = input.nextInt();
+				int number = -1;
+				while (number <= 1 || number > 36) {
+					System.out.println("Choose a number");
+					number = input.nextInt();
+					if (number <= 0 || number > 36) {
+						System.out.println("Your number has to be between 0 and 36 inclusive");
+						number = -2;
+					}
+				}
 				printStatement(bet, color, randomNumber, true, balance, number, "");
 			}
 
@@ -112,7 +119,7 @@ public class RouletteGame {
 			} else {
 				balance -= bet;
 				System.out.println("You lost (you currently have $" + (balance) + " left)\n");
-				
+
 			}
 		}
 
